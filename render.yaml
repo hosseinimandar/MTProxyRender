@@ -1,12 +1,10 @@
 services:
-  # Change the type from 'worker' to 'web'
   - type: web
     name: mtproto-proxy
-    env: python
+    # IMPORTANT: Change env to 'docker'
+    env: docker
     plan: free
-    # We still run the same python script
-    startCommand: "python main.py"
-    # The 'ports' field is valid for the 'web' type
+    # The startCommand is now in the Dockerfile (CMD)
     ports:
       - port: 8888
         protocol: TCP
