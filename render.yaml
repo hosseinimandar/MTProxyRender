@@ -1,9 +1,12 @@
 services:
-  - type: worker
+  # Change the type from 'worker' to 'web'
+  - type: web
     name: mtproto-proxy
     env: python
     plan: free
+    # We still run the same python script
     startCommand: "python main.py"
+    # The 'ports' field is valid for the 'web' type
     ports:
-      - port: 8888 # This is the internal port our python script uses
+      - port: 8888
         protocol: TCP
