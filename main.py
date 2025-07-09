@@ -2,7 +2,7 @@ import asyncio
 import os
 import secrets
 
-# --- FINAL, FLY.IO-OPTIMIZED SCRIPT ---
+# --- FINAL, OKTETO-OPTIMIZED SCRIPT ---
 
 # --- Configuration ---
 LOCAL_PORT = 8888
@@ -11,6 +11,7 @@ LOCAL_PORT = 8888
 async def handle_client(reader, writer):
     try:
         client_handshake = await reader.readexactly(64)
+        # Connect to an official Telegram Data Center (e.g., DC4)
         tg_reader, tg_writer = await asyncio.open_connection("149.154.167.51", 443)
         server_handshake = await tg_reader.readexactly(64)
         writer.write(server_handshake)
@@ -44,12 +45,12 @@ async def handle_client(reader, writer):
 
 async def start_proxy_server(host, port, secret):
     print("="*40)
-    print("✅ Your Proxy Server is starting on Fly.io...")
+    print("✅ Your Proxy Server is starting on Okteto...")
     print(f"[*] Listening on internal port: {port}")
     print(f"[*] Your secret is: {secret}")
     print("="*40)
-    print("After deployment, run 'fly ips list' to find your public address.")
-    print("Combine the public address from Fly.io with your secret to get the final link.")
+    print("\nGo to your Okteto dashboard to find the public URL (Endpoints).")
+    print("Combine the public URL from Okteto with your secret to build the final link.")
     
     server = await asyncio.start_server(handle_client, host, port)
     async with server:
@@ -58,19 +59,6 @@ async def start_proxy_server(host, port, secret):
 # --- Main script logic ---
 if __name__ == "__main__":
     proxy_secret = secrets.token_hex(16)
-    
-    # We must generate the tg link before starting the server
-    # because Fly.io does not show the logs in the same way.
-    # The user must get the IP address from their dashboard.
-    
-    print("="*40)
-    print("COPY YOUR SECRET NOW. YOU WILL NEED IT LATER.")
-    print(f"SECRET: {proxy_secret}")
-    print("="*40)
-    print("To generate the final link, use the IP from `fly ips list` command:")
-    print(f"tg://proxy?server=YOUR_FLY_IP&port=443&secret=dd{proxy_secret}")
-    print("="*40)
-    time.sleep(5)
     
     try:
         asyncio.run(start_proxy_server('0.0.0.0', LOCAL_PORT, proxy_secret))
