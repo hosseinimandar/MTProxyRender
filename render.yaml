@@ -1,0 +1,9 @@
+services:
+  - type: worker
+    name: mtproto-proxy
+    env: python
+    plan: free
+    startCommand: "python main.py"
+    ports:
+      - port: 8888 # This is the internal port our python script uses
+        protocol: TCP
