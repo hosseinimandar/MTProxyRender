@@ -1,7 +1,7 @@
 # fly.toml app configuration file
 # Replace 'YOUR_APP_NAME' with a unique name for your app
 
-app = 'YOUR_APP_NAME'
+app = 'Vihan'
 primary_region = 'ams' # Amsterdam (Europe), you can choose other regions
 
 [build]
