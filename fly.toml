@@ -1,0 +1,15 @@
+# fly.toml app configuration file
+# Replace 'YOUR_APP_NAME' with a unique name for your app
+
+app = 'YOUR_APP_NAME'
+primary_region = 'ams' # Amsterdam (Europe), you can choose other regions
+
+[build]
+  dockerfile = "Dockerfile"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8888
+
+  [[services.ports]]
+    port = 443 # We'll try to get the standard TLS port
